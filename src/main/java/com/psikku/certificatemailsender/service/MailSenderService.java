@@ -14,9 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +44,9 @@ public class MailSenderService {
         mailMessage.setText(new String(sb));
         try {
             javaMailSender.send(mailMessage);
+            System.out.println("ROW COUNTER: "+ROW_COUNTER);
+            System.out.println("email sent to: "+certEmailMap.get("email"));
+            ROW_COUNTER +=1;
         } catch (MailException e) {
             e.printStackTrace();
         }
@@ -54,14 +55,13 @@ public class MailSenderService {
     private Map<String,String> getCertDataFromFile() throws IOException {
 
         Map<String,String> emailCert = new LinkedHashMap<>();
-        Resource resource = resourceLoader.getResource("classpath:emailTest.csv");
+        Resource resource = resourceLoader.getResource("classpath:email.csv");
         List<String> certEmailList =
                 Files.lines(Paths.get(resource.getURI())).collect(Collectors.toList());
         String cert = certEmailList.get(ROW_COUNTER).split(",")[0];
         String email = certEmailList.get(ROW_COUNTER).split(",")[1];
         emailCert.put("certificate",cert);
         emailCert.put("email",email);
-        ROW_COUNTER +=1;
         return emailCert;
     }
 
