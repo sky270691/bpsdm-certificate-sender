@@ -55,7 +55,7 @@ public class MailSenderService {
     private Map<String,String> getCertDataFromFile() throws IOException {
 
         Map<String,String> emailCert = new LinkedHashMap<>();
-        Resource resource = resourceLoader.getResource("classpath:email3.csv");
+        Resource resource = resourceLoader.getResource("classpath:email4.csv");
         List<String> certEmailList =
                 Files.lines(Paths.get(resource.getURI())).collect(Collectors.toList());
         String cert = certEmailList.get(ROW_COUNTER).split(",")[0];
